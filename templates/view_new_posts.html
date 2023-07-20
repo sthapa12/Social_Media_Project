@@ -1,0 +1,14 @@
+{% load static %}
+{% for PersonalInforamtion in view_new_post %}
+{% for posts in post %}
+<div>
+<h3>{{ post.user }}</h3>
+<img src="{{ post.image.url }}" alt="Post Image">
+<p>{{ post.caption }}</p>
+<p>{{ post.created_at }}</p>
+<p>Likes: {{ post.no_of_likes }}</p>
+<div>
+{% empty %}
+<p>No posts found.<p>
+{% endfor %}
+has context menu
