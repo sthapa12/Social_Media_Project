@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount, PersonalInformation
+from .models import Profile, Post, LikePost, Comment, FollowersCount, PersonalInformation
 from itertools import chain
 import random
 
@@ -114,11 +114,21 @@ def like_post(request):
         post.save()
         return redirect('/')
 
+#create view for comment 
+
+@login_required(login_url='signin')
+def comment_create(request, pk):
+    if request.method == 'POST':
+        post = Post.objects.get(pk=pk)
+        content = request.POST['content']
+        Comment.objects.create(post=post, user=request.user, content=content)
+    return redirect('feed:post_detail', pk=pk)
+
+
 @login_required(login_url='signin')
 def view_profile(request):
     username = request.user.username
     
-
 
 @login_required(login_url='signin')
 def profile(request, pk):
